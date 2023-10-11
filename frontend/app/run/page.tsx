@@ -9,17 +9,17 @@ export default function Run() {
     const [textInput, setTextInput] = useState<string>('');
     const [color, setColor] = useState<string>('success');
 
-    useEffect(() => {
-        console.log('clicked', clicked);
-    }, [clicked])
+    // useEffect(() => {
+    //     console.log('clicked', clicked);
+    // }, [clicked])
 
-    useEffect(() => {
-        console.log('textInput', textInput);
-    }, [textInput])
+    // useEffect(() => {
+    //     console.log('textInput', textInput);
+    // }, [textInput])
 
-    useEffect(() => {
-        console.log('checked', checked);
-    }, [checked])
+    // useEffect(() => {
+    //     console.log('checked', checked);
+    // }, [checked])
 
     const changeColor = (color: string) => {
         switch (color) {

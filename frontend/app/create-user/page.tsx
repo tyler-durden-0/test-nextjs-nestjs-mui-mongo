@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+'use client'
 import {useState, useEffect, useCallback} from 'react';
-import {Button, TextField, Container, Autocomplete, Box } from '@mui/material';
+import {Button, TextField, Container, Autocomplete, Box, Typography } from '@mui/material';
 import {countries} from '../../constants/contries';
 import isEmail from 'validator/lib/isEmail';
 
@@ -112,11 +112,7 @@ export default function CreateUser() {
         }));
     }
 
-    useEffect(() => {
-        // console.log('formData', formData)
-        // console.log('isAnyFieldFalsy()', isAnyFieldFalsy())
-        // console.log('!isAnyError()', !isAnyError())
-  
+    useEffect(() => {  
         //check disable button for request
         if(!isAnyFieldFalsy() && !isAnyError()) {
           setDisableButton(false);
@@ -124,10 +120,6 @@ export default function CreateUser() {
           setDisableButton(true);
         }
     }, [formData, isAnyError, isAnyFieldFalsy])
-
-    // useEffect(() => {
-    //     console.log('formDataErrors', formDataErrors)
-    // }, [formDataErrors])
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
@@ -142,9 +134,16 @@ export default function CreateUser() {
       };
 
     return (
-        <>
-            <Container maxWidth="sm">
+        <>           
+            <Container maxWidth="sm" style={{
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+            }}>
                 <form onSubmit={handleSubmit}>
+                    <Typography align="center" variant="h2" gutterBottom>
+                        Create user here!
+                    </Typography>
                     <TextField
                         label="First name"
                         name={FormDataFields.FIRST_NAME}
