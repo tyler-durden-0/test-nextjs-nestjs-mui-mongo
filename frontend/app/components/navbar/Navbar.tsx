@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { navbarStyles } from './styles';
 import { useRouter } from 'next/navigation';
 import { mainNavbarItems } from './consts/navbarItems';
+import { Typography } from '@mui/material';
 
 const Navbar = () => {
     const router = useRouter();
@@ -24,7 +25,11 @@ const Navbar = () => {
             variant="permanent"
             anchor="left"
         >
-          <Toolbar />
+          <Toolbar sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Typography sx={{color: '#fcba03'}} variant="h5" align="center" gutterBottom>
+              MongoDB CRUD
+            </Typography>
+          </Toolbar>
           <Divider />
           <List>
             {mainNavbarItems.map((item, index) => (
