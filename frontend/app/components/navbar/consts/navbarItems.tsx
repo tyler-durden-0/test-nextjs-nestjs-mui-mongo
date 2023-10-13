@@ -27,7 +27,7 @@ export const mainNavbarItems = [
         id: 3,
         icon: <SearchIcon />,
         label: 'User filter',
-        route: '/',
+        route: '/user-filter',
     },
     {
         id: 4,

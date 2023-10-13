@@ -4,12 +4,9 @@ import {Button, TextField, Container, Autocomplete, Box, Typography } from '@mui
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-
 import {countries} from '../../constants/contries';
 import isEmail from 'validator/lib/isEmail';
 
-
-import ShowCreatedUserCard from '../components/showCreatedUserCardComponent/ShowCreatedUserCardComponents';
 import ShowCreatedUserCardInterface from '../components/showCreatedUserCardComponent/interface/ShowCreatedUserCardInterface';
 
 interface FormDataObject {
@@ -55,13 +52,8 @@ export default function CreateUser() {
 
     const [disableButton, setDisableButton] = useState<boolean>(true);
     const [responseData, setResponseData] = useState<ShowCreatedUserCardInterface | null>(null);
-    const [showCard, setShowCard] = useState<boolean>(true);
 
     const [open, setOpen] = React.useState(false);
-
-    const handleClick = () => {
-      setOpen(true);
-    };
   
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
       if (reason === 'clickaway') {
@@ -70,10 +62,6 @@ export default function CreateUser() {
   
       setOpen(false);
     };
-
-    const handleCardCloseClicked = () => {
-        setShowCard((prev) => !prev);
-    }
     
     const handleChange = (event: any) => {
       const { name, value } = event.target;
@@ -154,10 +142,6 @@ export default function CreateUser() {
           setDisableButton(true);
         }
     }, [formData, isAnyError, isAnyFieldFalsy])
-
-    useEffect(() => {
-        setShowCard(true);
-    }, [responseData])
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
@@ -288,7 +272,7 @@ export default function CreateUser() {
                         Create user
                     </Button>
                 </form>
-                {responseData && showCard ? <ShowCreatedUserCard data={{...responseData, onClick: handleCardCloseClicked}}/> : ''}
+                {/* {responseData && showCard ? <ShowCreatedUserCard data={{...responseData, onClick: handleCardCloseClicked}}/> : ''} */}
                 <Snackbar open={open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity={responseData ? "success" : "error"} sx={{ width: '100%' }}>
                         {responseData ? 'You sucessfully created new user!' : 'Error while creating new user!'}

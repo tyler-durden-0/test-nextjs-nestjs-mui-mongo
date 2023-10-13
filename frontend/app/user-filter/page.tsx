@@ -22,7 +22,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-const UsersPage = () => {
+const UsersFilterPage = () => {
+
+
     const [responseData, setResponseData] = useState<Array<ShowCreatedUserCardInterface> | null>(null);
     const [loading, setLoadin] = useState<boolean>(true);
     const [open, setOpen] = React.useState(false);
@@ -151,4 +153,4 @@ const UsersPage = () => {
     )
 }
 
-export default UsersPage;
+export default UsersFilterPage;

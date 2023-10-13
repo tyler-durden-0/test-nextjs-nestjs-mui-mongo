@@ -1,23 +1,17 @@
 export const navbarStyles = {
     drawer: {
-        // width: 320,
-        // flexShrink: 0,
-        // position: 'fixed',
-        // top: 0,
-        // bottom: 0,
-        // zIndex: 1000,
-        // maxWidth: '100%',
         '& .MuiDrawer-paper': {
-            // width: 320,
-            // width: '100%',
             position: 'relative',
-            // height: '100vh',
             boxSizing: 'border-box',
             backgroundColor: '#101F33',
             color: 'rgba(255, 255, 255, 0.7)',
         },
         '& .Mui-selected': {
             color: 'red',
+        },
+        '& li:hover': {
+            backgroundColor: '#3CC3DB',
+            transition: "background-color .5s linear"
         },
     },
     icons: {
