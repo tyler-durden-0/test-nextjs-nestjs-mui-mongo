@@ -5,6 +5,6 @@ export default interface ShowCreatedUserCardInterface {
     firstName: string;
     lastName: string;
     _id: string;
-    onClick: () => void;
+    onClick?: () => void;
     __v: number;
 }

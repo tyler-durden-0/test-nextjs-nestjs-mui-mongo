@@ -28,10 +28,6 @@ const UpdateUserPage = () => {
     const [responseData, setResponseData] = useState<Array<ShowCreatedUserCardInterface> | null>(null);
     const [loading, setLoadin] = useState<boolean>(true);
     const [open, setOpen] = React.useState(false);
-
-    const handleClick = () => {
-      setOpen(true);
-    };
   
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
       if (reason === 'clickaway') {
@@ -40,10 +36,6 @@ const UpdateUserPage = () => {
   
       setOpen(false);
     };
-
-    useEffect(() => {
-        console.log('responseData', responseData)
-    }, [responseData])
 
     useEffect(() => {
         requestUsersData();
@@ -62,13 +54,34 @@ const UpdateUserPage = () => {
         })
         .then(response => response.json())
         .then(json => {
-            console.log('json', json)
-            setResponseData(json);
-            setLoadin(false);
-            // setLoadin(true);
+            console.log('json', json);
+            if(Array.isArray(json)) {
+                const isDataValid = json.every((item) => {
+                    return (
+                      typeof item.firstName === 'string' &&
+                      typeof item.lastName === 'string' &&
+                      typeof item.email === 'string' &&
+                      typeof item.country === 'string' &&
+                      typeof item.age === 'number' &&
+                      typeof item._id === 'string'
+                    );
+                });
+                if (isDataValid) {
+                    setResponseData(json);
+                    setLoadin(false);
+                  } else {
+                    setOpen(true);
+                    setLoadin(false);
+                  }
+            } else {
+                setOpen(true);
+                setLoadin(false);
+            }
         })
         .catch((err) => {
             console.log('err', err);
+            setOpen(true);
+            setLoadin(false);
         }) 
     }
 
@@ -103,29 +116,37 @@ const UpdateUserPage = () => {
                                 </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {responseData ? responseData.map((user) => (
+                                {responseData?.length && responseData?.length >= 1 ? responseData.map((user) => (
                                     <TableRow
                                     key={user._id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                    <TableCell component="th" scope="row">
-                                        {user.firstName}
-                                    </TableCell>
-                                    <TableCell align="right">{user.lastName}</TableCell>
-                                    <TableCell align="right">{user.age}</TableCell>
-                                    <TableCell align="right">{user.email}</TableCell>
-                                    <TableCell align="right">{user.country}</TableCell>
-                                    <TableCell align="right">{user._id}</TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {user.firstName}
+                                        </TableCell>
+                                        <TableCell align="right">{user.lastName}</TableCell>
+                                        <TableCell align="right">{user.age}</TableCell>
+                                        <TableCell align="right">{user.email}</TableCell>
+                                        <TableCell align="right">{user.country}</TableCell>
+                                        <TableCell align="right">{user._id}</TableCell>
                                     </TableRow>
-                                )) : ''}
+                                )) : 
+                                <TableRow
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell colSpan={6} component="th" scope="row" align="center">
+                                        There is no data
+                                    </TableCell>
+                                </TableRow> 
+                                }
                                 </TableBody>
                             </Table>
                         </TableContainer>
                 }
                     
                 <Snackbar open={open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity={responseData ? "success" : "error"} sx={{ width: '100%' }}>
-                        {responseData ? 'You sucessfully updated user!' : 'Error while updating user!'}
+                    <Alert onClose={handleClose} severity={"error"} sx={{ width: '100%' }}>
+                        Error while getting user!
                     </Alert>
                 </Snackbar>
             </Container>
