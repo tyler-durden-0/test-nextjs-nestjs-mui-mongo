@@ -8,6 +8,10 @@ import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
+  async getAll(): Promise<User[]> {
+    return this.userModel.find().select({__v: 0}).exec();
+  };
+
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
       const createdUser = new this.userModel({
@@ -42,6 +46,14 @@ export class UsersService {
       return user || null;
     } catch (error) {
       return null;
+    }
+  }
+
+  async delete(id: string): Promise<any> {
+    try {
+      return this.userModel.deleteOne({ "_id": id });
+    } catch (error) {
+      throw new HttpException('Error deleting user', HttpStatus.BAD_REQUEST);
     }
   }
 }
