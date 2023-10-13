@@ -48,13 +48,8 @@ const UpdateUserPage = () => {
 
     const [disableButton, setDisableButton] = useState<boolean>(true);
     const [responseData, setResponseData] = useState<ShowCreatedUserCardInterface | null>(null);
-    const [showCard, setShowCard] = useState<boolean>(true);
 
     const [open, setOpen] = React.useState(false);
-
-    const handleClick = () => {
-      setOpen(true);
-    };
   
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
       if (reason === 'clickaway') {
@@ -63,10 +58,6 @@ const UpdateUserPage = () => {
   
       setOpen(false);
     };
-
-    const handleCardCloseClicked = () => {
-        setShowCard((prev) => !prev);
-    }
     
     const handleChange = (event: any) => {
       const { name, value } = event.target;
@@ -143,11 +134,6 @@ const UpdateUserPage = () => {
           setDisableButton(true);
         }
     }, [formData, isAnyError, isAnyFieldFalsy])
-
-    useEffect(() => {
-        console.log('responseData', responseData)
-        setShowCard(true);
-    }, [responseData])
 
     const handleSubmit = (event: any) => {
         event.preventDefault();

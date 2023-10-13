@@ -7,21 +7,21 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 export const mainNavbarItems = [
     {
         id: 0,
+        icon: <PeopleIcon />,
+        label: 'Users',
+        route: '/users',
+    },
+    {
+        id: 1,
         icon: <GroupAddIcon />,
         label: 'Create new user',
         route: '/create-user',
     },
     {
-        id: 1,
+        id: 2,
         icon: <UpdateIcon />,
         label: 'Update specific user',
         route: '/update-user',
-    },
-    {
-        id: 2,
-        icon: <PeopleIcon />,
-        label: 'Users',
-        route: '/',
     },
     {
         id: 3,
