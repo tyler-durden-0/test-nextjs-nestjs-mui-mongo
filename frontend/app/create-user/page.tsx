@@ -1,9 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-import {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Button, TextField, Container, Autocomplete, Box, Typography } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+
 import {countries} from '../../constants/contries';
 import isEmail from 'validator/lib/isEmail';
+
+
 import ShowCreatedUserCard from '../components/showCreatedUserCardComponent/ShowCreatedUserCardComponents';
 import ShowCreatedUserCardInterface from '../components/showCreatedUserCardComponent/interface/ShowCreatedUserCardInterface';
 
@@ -25,6 +31,13 @@ enum FormDataFields {
     COUNTRY = 'country',
 }
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
 export default function CreateUser() {
     const [formData, setFormData] = useState<FormDataObject>({
         firstName: '',
@@ -44,6 +57,20 @@ export default function CreateUser() {
     const [disableButton, setDisableButton] = useState<boolean>(true);
     const [responseData, setResponseData] = useState<ShowCreatedUserCardInterface | null>(null);
     const [showCard, setShowCard] = useState<boolean>(true);
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
 
     const handleCardCloseClicked = () => {
         setShowCard((prev) => !prev);
@@ -141,9 +168,21 @@ export default function CreateUser() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData)
-        }).then(response => response.json()).then(json => {
-            setResponseData(json);
         })
+        .then(response => response.json())
+        .then(json => {
+            if (json._id) {
+                setResponseData(json);
+            } else {
+                setResponseData(null);
+            }
+            setOpen(true);
+        })
+        .catch((err) => {
+            console.log('err', err);
+            setResponseData(null);
+            setOpen(true);
+        }) 
       };
 
     return (
@@ -251,6 +290,11 @@ export default function CreateUser() {
                     </Button>
                 </form>
                 {responseData && showCard ? <ShowCreatedUserCard data={{...responseData, onClick: handleCardCloseClicked}}/> : ''}
+                <Snackbar open={open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity={responseData ? "success" : "error"} sx={{ width: '100%' }}>
+                        {responseData ? 'You sucessfully created new user!' : 'Error while creating new user!'}
+                    </Alert>
+                </Snackbar>
             </Container>
         </>
     )
