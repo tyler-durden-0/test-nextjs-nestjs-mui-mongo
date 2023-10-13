@@ -7,6 +7,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import {countries} from '../../constants/contries';
 import isEmail from 'validator/lib/isEmail';
 
+import ShowCreatedUserCardInterface from '../components/showCreatedUserCardComponent/interface/ShowCreatedUserCardInterface';
+
 interface FormDataObject {
     firstName: string;
     email: string;
@@ -14,7 +16,7 @@ interface FormDataObject {
     userId: string;
 }
 
-type FormDataErrors = Omit<FormDataObject, "country">
+type FormDataErrors = Omit<Record<keyof FormDataObject, boolean>, 'country'>;
 
 enum FormDataFields {
     FIRST_NAME = 'firstName',
@@ -38,14 +40,14 @@ const UpdateUserPage = () => {
         userId: '',
     });
     
-    const [formDataErrors, setFormDataErrors] = useState({
+    const [formDataErrors, setFormDataErrors] = useState<FormDataErrors>({
         firstName: false,
         email: false,
         userId: false,
     });
 
     const [disableButton, setDisableButton] = useState<boolean>(true);
-    const [responseData, setResponseData] = useState<{} | null>(null);
+    const [responseData, setResponseData] = useState<ShowCreatedUserCardInterface | null>(null);
     const [showCard, setShowCard] = useState<boolean>(true);
 
     const [open, setOpen] = React.useState(false);
@@ -77,7 +79,7 @@ const UpdateUserPage = () => {
         if(!isErrorInSpecificField(FormDataFields.EMAIL)) {
             setSpecificError(FormDataFields.EMAIL);
         }
-      } else if(name === FormDataFields.USER_ID && value.length >= 30) {
+      } else if(name === FormDataFields.USER_ID && value.length === 0) {
         if(!isErrorInSpecificField(FormDataFields.USER_ID)) {
             setSpecificError(FormDataFields.USER_ID);
         }
@@ -237,7 +239,7 @@ const UpdateUserPage = () => {
                         })
                       }}
                       renderOption={(props, option) => (
-                          <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                          <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} key={option.code} {...props}>
                           <img
                               loading="lazy"
                               width="20"
@@ -266,7 +268,7 @@ const UpdateUserPage = () => {
                 </form>
                 <Snackbar open={open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity={responseData ? "success" : "error"} sx={{ width: '100%' }}>
-                        {responseData ? 'You sucessfully created new user!' : 'Error while creating new user!'}
+                        {responseData ? 'You sucessfully updated user!' : 'Error while updating user!'}
                     </Alert>
                 </Snackbar>
             </Container>

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 import React, {useState, useEffect, useCallback} from 'react';
 import {Button, TextField, Container, Autocomplete, Box, Typography } from '@mui/material';
@@ -21,7 +20,7 @@ interface FormDataObject {
     country: string;
 }
 
-type FormDataErrors = Omit<FormDataObject, "country">
+type FormDataErrors = Omit<Record<keyof FormDataObject, boolean>, 'country'>;
 
 enum FormDataFields {
     FIRST_NAME = 'firstName',
@@ -47,7 +46,7 @@ export default function CreateUser() {
         country: '',
     });
     
-    const [formDataErrors, setFormDataErrors] = useState({
+    const [formDataErrors, setFormDataErrors] = useState<FormDataErrors>({
         firstName: false,
         lastName: false,
         age: false,
@@ -262,7 +261,7 @@ export default function CreateUser() {
                         })
                       }}
                       renderOption={(props, option) => (
-                          <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                          <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} key={option.code} {...props}>
                           <img
                               loading="lazy"
                               width="20"
