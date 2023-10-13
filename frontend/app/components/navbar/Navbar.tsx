@@ -15,32 +15,37 @@ const Navbar = () => {
     const router = useRouter();
 
     return (
-        <Drawer
-          sx={navbarStyles.drawer}
-          variant="permanent"
-          anchor="left"
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          {mainNavbarItems.map((item, index) => (
-            <ListItem
-                key={item.id}
-                onClick={() => router.push(item.route)}
-            >
-              <ListItemIcon
-                sx={navbarStyles.icons}
+        <div style={{
+          position: 'sticky',
+          top: 0
+        }}>
+          <Drawer
+            sx={navbarStyles.drawer}
+            variant="permanent"
+            anchor="left"
+        >
+          <Toolbar />
+          <Divider />
+          <List>
+            {mainNavbarItems.map((item, index) => (
+              <ListItem
+                  key={item.id}
+                  onClick={() => router.push(item.route)}
               >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                sx={navbarStyles.text}
-                primary={item.label}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+                <ListItemIcon
+                  sx={navbarStyles.icons}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  sx={navbarStyles.text}
+                  primary={item.label}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        </div>
     );
 };
 

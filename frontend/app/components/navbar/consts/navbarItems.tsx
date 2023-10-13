@@ -3,6 +3,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import PublicIcon from '@mui/icons-material/Public';
 import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
+import UpdateIcon from '@mui/icons-material/Update';
 import DnsIcon from '@mui/icons-material/Dns';
 
 export const mainNavbarItems = [
@@ -23,6 +24,12 @@ export const mainNavbarItems = [
         icon: <ImageIcon />,
         label: 'Home',
         route: '/',
+    },
+    {
+        id: 3,
+        icon: <UpdateIcon />,
+        label: 'Update specific user',
+        route: '/update-user',
     },
 
     // {

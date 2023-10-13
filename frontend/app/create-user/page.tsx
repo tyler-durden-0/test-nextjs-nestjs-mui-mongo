@@ -4,6 +4,8 @@ import {useState, useEffect, useCallback} from 'react';
 import {Button, TextField, Container, Autocomplete, Box, Typography } from '@mui/material';
 import {countries} from '../../constants/contries';
 import isEmail from 'validator/lib/isEmail';
+import ShowCreatedUserCard from '../components/showCreatedUserCardComponent/ShowCreatedUserCardComponents';
+import ShowCreatedUserCardInterface from '../components/showCreatedUserCardComponent/interface/ShowCreatedUserCardInterface';
 
 interface FormDataObject {
     firstName: string;
@@ -40,6 +42,12 @@ export default function CreateUser() {
     });
 
     const [disableButton, setDisableButton] = useState<boolean>(true);
+    const [responseData, setResponseData] = useState<ShowCreatedUserCardInterface | null>(null);
+    const [showCard, setShowCard] = useState<boolean>(true);
+
+    const handleCardCloseClicked = () => {
+        setShowCard((prev) => !prev);
+    }
     
     const handleChange = (event: any) => {
       const { name, value } = event.target;
@@ -121,6 +129,10 @@ export default function CreateUser() {
         }
     }, [formData, isAnyError, isAnyFieldFalsy])
 
+    useEffect(() => {
+        setShowCard(true);
+    }, [responseData])
+
     const handleSubmit = (event: any) => {
         event.preventDefault();
         fetch('http://localhost:3001/users', {
@@ -129,16 +141,21 @@ export default function CreateUser() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData)
-        }).then(response => response.json()).then(json => console.log(json))
-        console.log('Отправленная форма:', formData);
+        }).then(response => response.json()).then(json => {
+            setResponseData(json);
+        })
       };
 
     return (
         <>           
             <Container maxWidth="sm" style={{
-                height: '100vh',
+                height: '100%',
                 display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
                 alignItems: 'center',
+                gap: 50,
+                overflow: 'auto'
             }}>
                 <form onSubmit={handleSubmit}>
                     <Typography align="center" variant="h2" gutterBottom>
@@ -199,7 +216,7 @@ export default function CreateUser() {
                       autoHighlight
                       getOptionLabel={(option) => option.label}
                       onChange={(event, newValue) => {
-                        console.log('event, newValue', event, newValue)
+                        // console.log('event, newValue', event, newValue)
                         setFormData({
                             ...formData,
                             country: newValue?.label ? newValue?.label : ''
@@ -233,6 +250,7 @@ export default function CreateUser() {
                         Create user
                     </Button>
                 </form>
+                {responseData && showCard ? <ShowCreatedUserCard data={{...responseData, onClick: handleCardCloseClicked}}/> : ''}
             </Container>
         </>
     )

@@ -21,8 +21,8 @@
       <html lang="en">
         <ThemeRegistry>
           <body className={inter.className}>
-            <Grid container>
-              <Grid item xs={2}>
+            <Grid container sx={{height: '100vh'}}>
+              <Grid item xs={2} sx={{backgroundColor: '#101F33',}}>
                 <Navbar />
               </Grid>
               <Grid item xs={10}>
