@@ -1,11 +1,13 @@
 import PeopleIcon from '@mui/icons-material/People';
-import ImageIcon from '@mui/icons-material/Image';
 import UpdateIcon from '@mui/icons-material/Update';
+import SearchIcon from '@mui/icons-material/Search';
+import HomeIcon from '@mui/icons-material/Home';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 export const mainNavbarItems = [
     {
         id: 0,
-        icon: <PeopleIcon />,
+        icon: <GroupAddIcon />,
         label: 'Create new user',
         route: '/create-user',
     },
@@ -17,7 +19,19 @@ export const mainNavbarItems = [
     },
     {
         id: 2,
-        icon: <ImageIcon />,
+        icon: <PeopleIcon />,
+        label: 'Users',
+        route: '/',
+    },
+    {
+        id: 3,
+        icon: <SearchIcon />,
+        label: 'User filter',
+        route: '/',
+    },
+    {
+        id: 4,
+        icon: <HomeIcon />,
         label: 'Home',
         route: '/',
     },
